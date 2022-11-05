@@ -62,7 +62,7 @@ public class MainController {
             shortenedUrl = urlService.shortenUrl(url).getShortUrl();
         }
 
-        var fullShortenedUrl = ServletUriComponentsBuilder.fromCurrentRequest()
+        var fullShortenedUrl = ServletUriComponentsBuilder.fromHttpUrl("https://go.mrgrd56.ru/")
                 .replacePath(shortenedUrl)
                 .toUriString();
 
