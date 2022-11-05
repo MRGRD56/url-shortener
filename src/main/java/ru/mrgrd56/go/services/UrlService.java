@@ -80,6 +80,7 @@ public class UrlService {
     public boolean removeShortenedUrl(String shortUrl) {
         return shortenedUrlRepository.findById(shortUrl)
                 .map(url -> {
+                    urlVisitRepository.deleteAllByShortenedUrl(url);
                     shortenedUrlRepository.delete(url);
                     return true;
                 })
