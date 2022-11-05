@@ -1,7 +1,3 @@
-FROM openjdk:17-jdk-slim
-COPY target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
-
 FROM busybox as pre-build-app
 WORKDIR /src/
 COPY . .
