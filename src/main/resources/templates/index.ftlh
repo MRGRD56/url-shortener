@@ -39,7 +39,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 14px;
+            gap: 20px;
             max-width: 100%;
         }
 
@@ -47,18 +47,36 @@
             display: flex;
             flex-direction: row;
             max-width: 100%;
-            width: 300px;
+            width: 600px;
+            position: relative;
+
+            height: 60px;
+            max-height: 60px;
+        }
+
+        .short-form__input:focus, .short-form:hover > .short-form__input {
+            box-shadow: 1px 2px 8px rgb(17 17 17 / 15%);
+            border: 1px solid transparent;
         }
 
         .short-form__input {
-            flex: 1;
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+
+            border: 1px solid #d8d8d8;
+            border-radius: 12px;
+
             font-family: Roboto, sans-serif;
-            padding: 10px 14px;
-            border: 2px solid #2196f3;
-            border-right-width: 0;
-            border-radius: 20px 0 0 20px;
+            font-size: 1rem;
+            padding-left: 25px;
+            padding-right: 125px;
             max-width: 100%;
             min-width: 10px;
+
+            transition: all ease-in-out 0.1s;
         }
 
         .short-form__input:focus-visible {
@@ -70,15 +88,28 @@
         }
 
         .short-form__button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+
             font-family: Roboto, sans-serif;
-            font-size: 0.9rem;
+            font-weight: 500;
+            font-size: 1rem;
             cursor: pointer;
 
             border: none;
-            padding: 3px 15px;
+            margin: 7px;
+            padding: 0 25px;
             background: #2196f3;
-            border-radius: 0 20px 20px 0;
+            border-radius: 8px;
             color: #e3f2fd;
+
+            transition: all ease-in-out 0.1s;
+        }
+
+        .short-form__button:hover, .short-form__button:focus {
+            background: #1976d2;
         }
 
         .short-url {
@@ -97,7 +128,7 @@
 <body>
     <main class="main">
         <form id="short-form" class="short-form">
-            <input type="url" name="url" required class="short-form__input" placeholder="https://example.com/">
+            <input type="url" name="url" required class="short-form__input" placeholder="Enter long url">
             <button type="submit" class="short-form__button">Shorten</button>
         </form>
 
