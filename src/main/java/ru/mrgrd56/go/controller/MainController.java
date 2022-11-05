@@ -48,8 +48,16 @@ public class MainController {
             @RequestParam(required = false) String shortUrl,
             @CookieValue(name = "auth_key", required = false) String key) {
         try {
+            url = url == null ? null : url.trim();
+
             if (!urlService.isValidUrl(url)) {
                 return ResponseEntity.badRequest().body("INVALID_URL");
+            }
+
+            assert url != null;
+
+            if (url.matches("^https://go.mrgrd56.ru/[^0-9a-zA-Z_]+$")) {
+                return ResponseEntity.ok(url);
             }
 
             String shortenedUrl;

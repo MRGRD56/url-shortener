@@ -2,6 +2,7 @@ package ru.mrgrd56.go.services;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
@@ -69,6 +70,10 @@ public class UrlService {
     }
 
     public boolean isValidUrl(String url) {
+        if (StringUtils.isBlank(url)) {
+            return false;
+        }
+
         try {
             new URL(url).toURI();
             return true;
