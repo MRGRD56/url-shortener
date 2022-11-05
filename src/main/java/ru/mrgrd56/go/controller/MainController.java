@@ -56,7 +56,7 @@ public class MainController {
 
             assert url != null;
 
-            if (url.matches("^https://go.mrgrd56.ru/[^0-9a-zA-Z_]+$")) {
+            if (url.matches("^(https?://)?go.mrgrd56.ru/[^0-9a-zA-Z_]+$")) {
                 return ResponseEntity.ok(url);
             }
 
