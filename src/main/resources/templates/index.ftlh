@@ -147,8 +147,8 @@
                 <input aria-label="URL" type="url" name="url" required class="short-form__input" placeholder="Enter long url">
                 <button type="submit" class="short-form__button">Shorten</button>
             </div>
-            <div class="short-form-component">
-                <input aria-label="Short URL" id="short-form-short-url" type="text" name="shortUrl" class="short-form__input short-form__input-no-button" placeholder="Short URL (not required)">
+            <div class="short-form-component d-none" id="short-form-short-url">
+                <input aria-label="Short URL" type="text" name="shortUrl" class="short-form__input short-form__input-no-button" placeholder="Short URL (not required)">
             </div>
         </form>
 
@@ -161,6 +161,11 @@
 
         const shortForm = document.getElementById('short-form');
         const shortUrl = document.getElementById('short-url');
+        const shortFormShortUrl = document.getElementById('short-form-short-url');
+
+        if (IS_AUTHORIZED) {
+            shortFormShortUrl.classList.remove('d-none');
+        }
 
         const isValidHttpUrl = string => {
             let url;
