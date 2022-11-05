@@ -1,0 +1,13 @@
+services:
+  backend:
+    image: url-shortener
+    build:
+      context: .
+      args:
+        APP_NAME: url-shortener
+    ports:
+      - "9010:9010"
+    restart: always
+    environment:
+      ENV: production
+      NODE_ENV: production
