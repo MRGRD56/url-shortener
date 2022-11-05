@@ -29,6 +29,8 @@
             font-family: Roboto, sans-serif;
 
             margin: 8px;
+
+            min-width: 250px;
         }
 
         .d-none {
