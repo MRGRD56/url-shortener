@@ -47,6 +47,12 @@
 
         .short-form {
             display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .short-form-component {
+            display: flex;
             flex-direction: row;
             max-width: 100%;
             width: 600px;
@@ -56,7 +62,7 @@
             max-height: 60px;
         }
 
-        .short-form__input:focus, .short-form:hover > .short-form__input {
+        .short-form__input:focus, .short-form-component:hover > .short-form__input {
             box-shadow: 1px 2px 8px rgb(17 17 17 / 15%);
             border: 1px solid transparent;
         }
@@ -81,6 +87,11 @@
             width: calc(100% - 152px);
 
             transition: all ease-in-out 0.1s;
+        }
+
+        .short-form__input-no-button {
+            padding-right: 25px;
+            width: calc(100% - 52px);
         }
 
         .short-form__input:focus-visible {
@@ -132,13 +143,22 @@
 <body>
     <main class="main">
         <form id="short-form" class="short-form">
-            <input type="url" name="url" required class="short-form__input" placeholder="Enter long url">
-            <button type="submit" class="short-form__button">Shorten</button>
+            <div class="short-form-component">
+                <input aria-label="URL" type="url" name="url" required class="short-form__input" placeholder="Enter long url">
+                <button type="submit" class="short-form__button">Shorten</button>
+            </div>
+            <div class="short-form-component">
+                <input aria-label="Short URL" id="short-form-short-url" type="text" name="shortUrl" class="short-form__input short-form__input-no-button" placeholder="Short URL (not required)">
+            </div>
         </form>
 
         <a href="" class="short-url d-none" id="short-url" target="_blank" rel="noopener"></a>
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script>
+        const IS_AUTHORIZED = document.cookie;
+
         const shortForm = document.getElementById('short-form');
         const shortUrl = document.getElementById('short-url');
 
@@ -146,7 +166,7 @@
             let url;
             try {
                 url = new URL(string);
-            } catch (_) {
+            } catch (e) {
                 return false;
             }
             return url.protocol === "http:" || url.protocol === "https:";
@@ -168,13 +188,14 @@
             const data = new FormData(event.currentTarget);
             /** @type {string} */
             const url = data.get('url');
+            const shortUrl = IS_AUTHORIZED ? data.get('shortUrl') : undefined;
 
             if (!isValidHttpUrl(url)) {
                 return;
             }
 
             fetch('/api/shorten?' + new URLSearchParams({
-                url
+                url, shortUrl
             }))
                 .then(response => response.text())
                 .then(shortUrl => {

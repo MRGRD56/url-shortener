@@ -112,6 +112,11 @@ public class MainController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
+        var authorizedCookie = new Cookie("authorized", "true");
+        cookie.setHttpOnly(false);
+        cookie.setPath("/");
+        response.addCookie(authorizedCookie);
+
         return ResponseEntity.ok("OK");
     }
 }

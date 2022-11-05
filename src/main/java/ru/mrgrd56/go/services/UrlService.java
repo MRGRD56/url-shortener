@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -40,9 +41,13 @@ public class UrlService {
     }
 
     public ShortenedUrl shortenUrl(@NonNull String url, @NonNull String newShortUrl) {
-        var existsById = shortenedUrlRepository.existsById(newShortUrl);
-        if (existsById) {
-            throw new StatusCodeException(HttpStatus.BAD_REQUEST, "This short URL already exists");
+        var existingById = shortenedUrlRepository.findById(newShortUrl).orElse(null);
+        if (existingById != null) {
+            if (Objects.equals(existingById.getUrl(), url)) {
+                return existingById;
+            } else {
+                throw new StatusCodeException(HttpStatus.BAD_REQUEST, "This short URL already exists");
+            }
         }
 
         var byUrl = shortenedUrlRepository.findByUrl(url);
