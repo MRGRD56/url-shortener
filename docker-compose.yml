@@ -11,3 +11,5 @@ services:
     environment:
       ENV: production
       NODE_ENV: production
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
