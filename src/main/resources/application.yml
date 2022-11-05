@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    include: secrets
   jpa:
     defer-datasource-initialization: true
     hibernate:
