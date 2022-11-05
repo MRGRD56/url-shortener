@@ -82,22 +82,6 @@ public class MainController {
         }
     }
 
-    @GetMapping(value = "/api/authorize/{key}")
-    public ResponseEntity<?> authorize(
-            HttpServletResponse response,
-            @PathVariable String key) {
-        if (!actualSecretKey.equals(key)) {
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-        }
-
-        var cookie = new Cookie("auth_key", key);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        response.addCookie(cookie);
-
-        return ResponseEntity.ok("OK");
-    }
-
     @GetMapping(value = "/api/remove-url")
     public ResponseEntity<?> removeShortUrl(
             @RequestParam String url,
@@ -113,5 +97,21 @@ public class MainController {
         }
 
         return ResponseEntity.ok("DELETED");
+    }
+
+    @GetMapping(value = "/api/authorize/{key}")
+    public ResponseEntity<?> authorize(
+            HttpServletResponse response,
+            @PathVariable String key) {
+        if (!actualSecretKey.equals(key)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        var cookie = new Cookie("auth_key", key);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        response.addCookie(cookie);
+
+        return ResponseEntity.ok("OK");
     }
 }

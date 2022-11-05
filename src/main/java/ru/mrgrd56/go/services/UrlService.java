@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.mrgrd56.go.exception.StatusCodeException;
 import ru.mrgrd56.go.model.shortenedurl.ShortenedUrl;
 import ru.mrgrd56.go.model.shortenedurl.ShortenedUrlRepository;
@@ -82,6 +83,7 @@ public class UrlService {
         }
     }
 
+    @Transactional
     public boolean removeShortenedUrl(String shortUrl) {
         return shortenedUrlRepository.findById(shortUrl)
                 .map(url -> {
