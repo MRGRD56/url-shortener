@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.util.UriComponentsBuilder;
+import ru.mrgrd56.go.exception.StatusCodeException;
 import ru.mrgrd56.go.services.UrlService;
 
 import javax.servlet.http.Cookie;
@@ -46,27 +47,31 @@ public class MainController {
             @RequestParam String url,
             @RequestParam(required = false) String shortUrl,
             @CookieValue(name = "auth_key", required = false) String key) {
-        if (!urlService.isValidUrl(url)) {
-            return ResponseEntity.badRequest().body("INVALID_URL");
-        }
-
-        String shortenedUrl;
-
-        if (StringUtils.isNotBlank(shortUrl)) {
-            if (!actualSecretKey.equals(key)) {
-                return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        try {
+            if (!urlService.isValidUrl(url)) {
+                return ResponseEntity.badRequest().body("INVALID_URL");
             }
 
-            shortenedUrl = urlService.shortenUrl(url, shortUrl).getShortUrl();
-        } else {
-            shortenedUrl = urlService.shortenUrl(url).getShortUrl();
+            String shortenedUrl;
+
+            if (StringUtils.isNotBlank(shortUrl)) {
+                if (!actualSecretKey.equals(key)) {
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+
+                shortenedUrl = urlService.shortenUrl(url, shortUrl).getShortUrl();
+            } else {
+                shortenedUrl = urlService.shortenUrl(url).getShortUrl();
+            }
+
+            var fullShortenedUrl = ServletUriComponentsBuilder.fromHttpUrl("https://go.mrgrd56.ru/")
+                    .replacePath(shortenedUrl)
+                    .toUriString();
+
+            return ResponseEntity.ok(fullShortenedUrl);
+        } catch (StatusCodeException e) {
+            return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
         }
-
-        var fullShortenedUrl = ServletUriComponentsBuilder.fromHttpUrl("https://go.mrgrd56.ru/")
-                .replacePath(shortenedUrl)
-                .toUriString();
-
-        return ResponseEntity.ok(fullShortenedUrl);
     }
 
     @GetMapping(value = "/api/authorize/{key}")
