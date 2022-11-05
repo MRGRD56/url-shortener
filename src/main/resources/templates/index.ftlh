@@ -127,6 +127,10 @@
             background: #1976d2;
         }
 
+        .short-form__button:focus, .short-form__button:focus-visible {
+            outline: none;
+        }
+
         .short-url {
             text-decoration: none;
             color: #039be5;
