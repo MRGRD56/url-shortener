@@ -70,7 +70,7 @@ public class MainController {
 
             return ResponseEntity.ok(fullShortenedUrl);
         } catch (StatusCodeException e) {
-            return new ResponseEntity<>(e.getMessage(), e.getStatusCode());
+            return new ResponseEntity<>(e.getStatusText(), e.getStatusCode());
         }
     }
 
