@@ -62,7 +62,7 @@ public class MainController {
             shortenedUrl = urlService.shortenUrl(url).getShortUrl();
         }
 
-        var fullShortenedUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+        var fullShortenedUrl = ServletUriComponentsBuilder.fromCurrentRequest()
                 .replacePath(shortenedUrl)
                 .toUriString();
 
@@ -83,5 +83,22 @@ public class MainController {
         response.addCookie(cookie);
 
         return ResponseEntity.ok("OK");
+    }
+
+    @GetMapping(value = "/api/remove-url")
+    public ResponseEntity<?> removeShortUrl(
+            @RequestParam String url,
+            @CookieValue(name = "auth_key", required = false) String key) {
+        if (!actualSecretKey.equals(key)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        var isSuccess = urlService.removeShortenedUrl(url);
+
+        if (!isSuccess) {
+            return ResponseEntity.badRequest().body("URL_NOT_FOUND");
+        }
+
+        return ResponseEntity.ok("DELETED");
     }
 }

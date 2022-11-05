@@ -76,4 +76,13 @@ public class UrlService {
             return false;
         }
     }
+
+    public boolean removeShortenedUrl(String shortUrl) {
+        return shortenedUrlRepository.findById(shortUrl)
+                .map(url -> {
+                    shortenedUrlRepository.delete(url);
+                    return true;
+                })
+                .orElse(false);
+    }
 }
