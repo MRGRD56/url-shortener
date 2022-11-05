@@ -41,6 +41,14 @@ public class UrlService {
     }
 
     public ShortenedUrl shortenUrl(@NonNull String url, @NonNull String newShortUrl) {
+        return shortenUrl(url, newShortUrl, true);
+    }
+
+    public ShortenedUrl shortenUrl(@NonNull String url) {
+        return shortenUrl(url, shortenedUrlRepository.generateShortUrl(), false);
+    }
+
+    private ShortenedUrl shortenUrl(@NonNull String url, @NonNull String newShortUrl, boolean isCustom) {
         var existingById = shortenedUrlRepository.findById(newShortUrl).orElse(null);
         if (existingById != null) {
             if (Objects.equals(existingById.getUrl(), url)) {
@@ -50,17 +58,13 @@ public class UrlService {
             }
         }
 
-        var byUrl = shortenedUrlRepository.findByUrl(url);
-        if (byUrl.isPresent()) {
-            return byUrl.get();
+        var byUrl = shortenedUrlRepository.findByUrlAndIsCustom(url, isCustom).orElse(null);
+        if (byUrl != null && !byUrl.isCustom()) {
+            return byUrl;
         }
 
-        var newShortenedUrl = new ShortenedUrl(newShortUrl, url);
+        var newShortenedUrl = new ShortenedUrl(newShortUrl, url, isCustom);
         return shortenedUrlRepository.save(newShortenedUrl);
-    }
-
-    public ShortenedUrl shortenUrl(@NonNull String url) {
-        return shortenUrl(url, shortenedUrlRepository.generateShortUrl());
     }
 
     @Nullable

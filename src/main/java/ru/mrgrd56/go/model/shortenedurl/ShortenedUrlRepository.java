@@ -8,6 +8,8 @@ import java.util.Optional;
 public interface ShortenedUrlRepository extends CrudRepository<ShortenedUrl, String> {
     Optional<ShortenedUrl> findByUrl(String url);
 
+    Optional<ShortenedUrl> findByUrlAndIsCustom(String url, boolean isCustom);
+
     @Query(value = "SELECT generate_url_id()", nativeQuery = true)
     String generateShortUrl();
 }
