@@ -101,8 +101,7 @@
             <button type="submit" class="short-form__button">Shorten</button>
         </form>
 
-        <#--            <a href="" class="short-url d-none" id="short-url" target="_blank" rel="noopener"></a>-->
-        <a href="https://google.ru/wt42et" class="short-url" id="short-url" target="_blank" rel="noopener">https://google.ru/et4X5w</a>
+        <a href="" class="short-url d-none" id="short-url" target="_blank" rel="noopener"></a>
     </main>
     <script>
         const shortForm = document.getElementById('short-form');
