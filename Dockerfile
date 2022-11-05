@@ -12,5 +12,5 @@ RUN mvn clean package
 
 FROM openjdk:17-jdk-oracle as app
 ENV JAVA_OPTS="-Xms1G -Xmx2G"
-COPY --from=build-app /build/app/target/*.jar /app.jar
+COPY --from=build-app /build/target/*.jar /app.jar
 CMD ["sh", "-c", "eval exec java -server ${JAVA_OPTS} -jar app.jar"]
