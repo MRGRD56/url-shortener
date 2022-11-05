@@ -77,6 +77,8 @@
             padding-right: 125px;
             max-width: 100%;
             min-width: 10px;
+            height: calc(100% - 4px);
+            width: calc(100% - 150px);
 
             transition: all ease-in-out 0.1s;
         }
