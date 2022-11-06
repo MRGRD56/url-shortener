@@ -110,11 +110,13 @@ public class MainController {
         var cookie = new Cookie("auth_key", key);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
+        cookie.setMaxAge(Integer.MAX_VALUE);
         response.addCookie(cookie);
 
         var authorizedCookie = new Cookie("authorized", "true");
-        cookie.setHttpOnly(false);
-        cookie.setPath("/");
+        authorizedCookie.setHttpOnly(false);
+        authorizedCookie.setPath("/");
+        authorizedCookie.setMaxAge(Integer.MAX_VALUE);
         response.addCookie(authorizedCookie);
 
         return ResponseEntity.ok("OK");

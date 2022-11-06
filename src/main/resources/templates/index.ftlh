@@ -163,7 +163,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.1/dist/js.cookie.min.js"></script>
     <script>
-        const IS_AUTHORIZED = document.cookie;
+        const IS_AUTHORIZED = Cookies.get('authorized') === 'true';
 
         const shortForm = document.getElementById('short-form');
         const shortUrl = document.getElementById('short-url');
