@@ -49,6 +49,8 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+
+            max-width: 100%;
         }
 
         .short-form-component {
