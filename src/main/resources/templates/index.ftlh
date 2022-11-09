@@ -205,9 +205,12 @@
                 return;
             }
 
-            fetch('/api/shorten?' + new URLSearchParams({
-                url, shortUrl
-            }))
+            const params = {url};
+            if (shortUrl) {
+                params.shortUrl = shortUrl;
+            }
+
+            fetch('/api/shorten?' + new URLSearchParams(params))
                 .then(response => response.text())
                 .then(shortUrl => {
                     setResultUrl(shortUrl);
