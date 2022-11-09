@@ -16,7 +16,7 @@ public class ShortenedUrl extends BaseEntity {
     @Column(name = "short_url", unique = true)
     private String shortUrl;
 
-    @Column(name = "url")
+    @Column(name = "url", columnDefinition = "varchar(10240)")
     private String url;
 
     @Column(name = "custom")
